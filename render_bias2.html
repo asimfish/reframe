@@ -72,8 +72,8 @@
     // const BASE =
     //   "https://huggingface.co/ashawkey/nerf2mesh/resolve/main/scenes/"; // remote
     //   "https://huggingface.co/ashawkey/nerf2mesh"; // remote
-    const BASE = "../"; // local
-    // cconst BASE="https://huggingface.co/xiongdi/maskngp/resolve/main/scenes/";
+    // const BASE = "../"; // local
+    const BASE="https://huggingface.co/xiongdi/maskngp/resolve/main/scenes/";
     // const BASE = "https://huggingface.co/xiongdi/maskngp/resolve/main/scenes/";// local
 
 
@@ -198,10 +198,13 @@ in vec3 normal;
 in vec3 fragNormal;
 // uniform vec3 fragNormal;
 uniform int mode;  // 渲染模式
+uniform float dir_max;
+uniform float dir_min;
 uniform highp sampler2D Diffuse;  // diff纹理
 uniform highp sampler2D hash1;//specular 
 uniform highp sampler2D Dirmap;//dirmap 
 uniform highp sampler2D Normap;//dirmap 
+
 // uniform  vec3 vnData; //法线特征
 
 uniform highp sampler2D weightsZero;  // 第一层神经网络的权重,已经存储为sampler2D的纹理采样器格式
@@ -433,8 +436,8 @@ void main() {
 
 
 
-        float min_dir = -1.426039218902587891e+01;
-        float max_dir = 9.251919746398925781e+00;
+        float min_dir = dir_min;
+        float max_dir = dir_max;
         dirmap = dirmap * (max_dir - min_dir) +min_dir;
      
 
@@ -665,8 +668,6 @@ void main() {
     }
 
     //新的控制
-    
-
     function initProgressBar(name, length) {
       progressBar = document.getElementById("progressBar");
       progress[name] = new Array(length).fill("🔴");
@@ -931,8 +932,33 @@ void main() {
       // scene_names = Array.from(scene_names);
       // scene_names.forEach((name,index)=>console.log((name)));
       // console.log("[INFO] test:");
-
+      let minMaxValues;
+      let value1;
+      let value2;
       scene_names.forEach((name, index) => {
+        fetch(BASE + name + "/minmax.txt")
+    .then(response => response.text())
+    .then(data => {
+        // Handling the loaded data
+        minMaxValues = data;
+        console.log('Loaded minmax.txt:', minMaxValues);
+        // Here you can call a function to process minMaxValues,
+        // for example, updating shader uniform variables
+        // updateShader(minMaxValues);
+        
+    const minMaxValuesArray = minMaxValues.split('\n');
+
+// Now minMaxValuesArray is an array containing the two numerical values as separate elements
+ value1 = parseFloat(minMaxValuesArray[0]);
+ value2 = parseFloat(minMaxValuesArray[1]);
+
+  console.log('Value 1:', value1);
+  console.log('Value 2:', value2);
+    })
+    .catch(error => console.error('Error loading minmax.txt:', error));
+
+
+
         promises.push(fetch(BASE + name + "/mlp.json").then((response) => {return response.json();})
             .catch((error) => {
               console.error("Error:", error);
@@ -1025,53 +1051,7 @@ void main() {
               );
               console.log("weightsBiasOne is: ", weightsBiasOne);
 
-              // let newmat = new THREE.RawShaderMaterial({
-              //   side: THREE.DoubleSide,
-              //   vertexShader: RenderVertShader,
-              //   fragmentShader: RenderFragShader,
-              //   uniforms: {
-              //     mode: { value: configs[name].renderMode },
-              //     // tDiffuse: { value: tex0 },
-              //     // tSpecular: { value: tex1 },
-              //     // hash:{value:tex},//加载的hash特征
 
-              //     Diffuse: { value: diffuse },
-              //     // hash0:{value:tex0},
-              //     hash1: { value: tex1 },
-              //     Dirmap: { value: dirmap },
-              //     weightsZero: { value: weightsTexZero },
-              //     weightsOne: { value: weightsTexOne },
-              //     BiasZero: { value: weightsBiasZero },
-              //     BiasOne: { value: weightsBiasOne },
-              //   },
-              //   glslVersion: THREE.GLSL3,
-              // });
-              // console.log("渲染的颜色材质 ", newmat);
-              
-            //   let obj_mesh = new OBJLoader().load(BASE + name + "/mesh_0" + ".obj", object => {
-            //     // 检查是否成功加载了OBJ文件
-            //     if (object) {
-            //         object.traverse(function (child) {
-            //             if (child.type === "Mesh") {
-            //                 // 提取vn数据
-            //                 const geometry = child.geometry;
-            //                 const vn = geometry.attributes.normal.array; // vn数据
-
-            //                 // 创建一个新的着色器材质并将vn数据传递到顶点着色器
-            //                 const newMaterial = new THREE.ShaderMaterial({
-            //                     vertexShader: yourVertexShaderSource, // 您的顶点着色器代码
-            //                     fragmentShader: yourFragmentShaderSource, // 您的片段着色器代码,
-            //                     uniforms: { // 可以添加其他uniform变量
-            //                         vnData: { value: vn } // 传递vn数据到着色器
-            //                     }
-            //                 });
-
-            //                 // 将新的材质应用于对象
-            //                 child.material = newMaterial;
-            //             }
-            //         });
-            //     }
-            // });
 
             const canvas = document.getElementById("myCanvas"); // 替换 "myCanvas" 为您的 canvas 元素的 ID
             const gl = canvas.getContext("webgl2"); // 获取 WebGL 上下文
@@ -1137,6 +1117,8 @@ void main() {
                           Diffuse: { value: diffuse },
                           // hash0:{value:tex0},
                           hash1: { value: tex1 },
+                          dir_min:{value:value1},
+                          dir_max:{value:value2},
                           Dirmap: { value: dirmap },
                           Normap: {value: normalmap},
                           weightsZero: { value: weightsTexZero },
