@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>
-    MaskNGP
+    REFRAME
   </title>
 
 
@@ -40,7 +40,7 @@
           <div class="col">
             <!-- paper title -->
             <h2 style="font-size:30px;">
-              MaskndsNGP
+              REFRAME
             </h2>
             
             <!-- publication -->
@@ -49,15 +49,15 @@
             <hr>
             
             <!-- authors -->
-            <h6> <a href="https://me.kiui.moe/" target="_blank">XXX</a><sup>1</sup>, 
+            <h6> 
+                <!-- <a href="https://me.kiui.moe/" target="_blank">XXX</a><sup>1</sup>, 
                  <a href="https://hangz-nju-cuhk.github.io/" target="_blank">XXX</a><sup>2</sup>, 
-                 <a href="https://charlescxk.github.io/" target="_blank">XXX</a><sup>1</sup>, 
-                 XXX<sup>2</sup>, 
-                 XXX<sup>2</sup>, 
+                 <a href="https://charlescxk.github.io/" target="_blank">XXX</a><sup>1</sup>,  -->
+
 
                  <br>
                  <br>
-            <p> <sup>1</sup> XXX University &nbsp;
+            <!-- <p> <sup>1</sup> XXX University &nbsp; -->
                 <br>
             </p>
             
@@ -79,7 +79,7 @@
               </div>
               <!-- link to code -->
               <div style="margin: 5px;">
-                <p class="mb-5"><a class="btn btn-large btn-dark" href="https://github.com/liyufeng183/maskngp" role="button" target="_blank">
+                <p class="mb-5"><a class="btn btn-large btn-dark" href="https://www.reframe.pub/reframe" role="button" target="_blank">
                 <i class="fa fa-github-alt"></i> 
                 Code 
                 </a> </p>
@@ -113,7 +113,7 @@
           <br>
         </div>
           <p class="text-justify">
-                MaskndsNGP...
+            Neural Radiance Fields (NeRF) have demonstrated realistic synthesis in 3D reconstruction. However, NeRF struggles to reconstruct scenes with complex reflective appearances. In the meantime, methods that excel in modeling reflective appearances face challenges in achieving real-time rendering. On the other hand, existing real-time rendering methods, especially those based on meshes, often have subpar performance in modeling surfaces with rich view-dependent appearances. To address these limitations, we propose REFRAME, a pipeline that combines real-time rendering with accurate modeling of lighting. Our key idea lies in leveraging meshes for rendering acceleration while incorporating a novel approach to parameterize view-dependent information. Our experiments demonstrate that our method a
           </p>
         </div>
       </div>
@@ -130,36 +130,58 @@
             <h3>Real-time Online Interactive Viewer Demo</h3>
             <hr style="margin-top:0px">
 
-            <br> <h4><b>Helmet</b></h4>
+            <!-- <br> <h4><b>Helmet</b></h4> -->
+            <br> <h4> <b>Shinny-dataset</b> </h4>
             <table style="table-layout: fixed;">
               <tbody>
                 <tr>
-                  <td width="25%"> <a href="render_bias.html?scene=helmet" style="text-decoration: none"> <img src="./images/helmet.jpg" alt="helmet" class="img-responsive" width="100%"/> <b>helmet1</b> </a> </td>
-                  <td width="25%"> <a href="render_bias2.html?scene=helmet" style="text-decoration: none"> <img src="./images/helmet.jpg" alt="helmet" class="img-responsive" width="100%"/> <b>helmet2</b> </a> </td>
+                  <td width="25%"> <a href="render_bias.html?scene=helmet" style="text-decoration: none"> <img src="./images/helmet.jpg" alt="helmet" class="img-responsive" width="100%"/> <b>helmet</b> </a> </td>
+                  <td width="25%"> <a href="render_bias.html?scene=car" style="text-decoration: none"> <img src="./images/car.jpg" alt="car" class="img-responsive" width="100%"/> <b>car</b> </a> </td>
+                  <td width="25%"> <a href="render_bias.html?scene=coffee" style="text-decoration: none"> <img src="./images/coffee.jpg" alt="coffee" class="img-responsive" width="100%"/> <b>coffee</b> </a> </td>
+                  <td width="25%"> <a href="render_bias.html?scene=toaster" style="text-decoration: none"> <img src="./images/toaster.jpg" alt="toaster" class="img-responsive" width="100%"/> <b>toaster</b> </a> </td>
+                  <!-- <td width="25%"> <a href="render_bias2.html?scene=helmet" style="text-decoration: none"> <img src="./images/helmet.jpg" alt="helmet" class="img-responsive" width="100%"/> <b>helmet2</b> </a> </td> -->
                   <!-- <td width="50%"> <a href="render_bias6DoF.html?scene=helmet" style="text-decoration: none"> <img src="./images/helmet.jpg" alt="helmet" class="img-responsive" width="25%"/> <b>helmet</b> </a> </td> -->
                   <!-- <td width="25%"> <a href="render_ship.html?scene=ship" style="text-decoration: none"> <img src="../images/ship.jpg" alt="ship" class="img-responsive" width="100%"/> <b>Ship</b> </a> </td> -->
                 </tr>
+            </tbody>
+        </table>
+            <!-- <br> <h4> <b>NeRF-synthetic</b> </h4>
+            <table style="table-layout: fixed;"> -->
+                <br> <h4> <b>NeRF-synthetic</b> </h4>
+                <table style="table-layout: fixed;">
+                  <tbody>
 
-
-
-
-
-            <br> <h4> <b>NeRF-synthetic</b> </h4>
-            <table style="table-layout: fixed;">
-              <tbody>
-                  <tr>
-                    <td width="25%"> <a href="render_bias_back.html?scene=chair" style="text-decoration: none"> <img src="./images/chair.jpg" alt="chair" class="img-responsive" width="100%"/> <b>Chair</b> </a> </td>
-                    <td width="25%"> <a href="render_bias_back.html?scene=drums" style="text-decoration: none"> <img src="./images/drums.jpg" alt="drums" class="img-responsive" width="100%"/> <b>Drums</b> </a> </td>
-                    <td width="25%"> <a href="render_bias_back.html?scene=ficus" style="text-decoration: none"> <img src="./images/ficus.jpg" alt="ficus" class="img-responsive" width="100%"/> <b>Ficus</b> </a> </td>
-                    <td width="25%"> <a href="render_bias_back.html?scene=hotdog" style="text-decoration: none"> <img src="./images/hotdog.jpg" alt="hotdog" class="img-responsive" width="100%"/> <b>Hotdog</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=chair" style="text-decoration: none"> <img src="./images/chair.jpg" alt="chair" class="img-responsive" width="100%"/> <b>Chair</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=drums" style="text-decoration: none"> <img src="./images/drums.jpg" alt="drums" class="img-responsive" width="100%"/> <b>Drums</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=ficus" style="text-decoration: none"> <img src="./images/ficus.jpg" alt="ficus" class="img-responsive" width="100%"/> <b>Ficus</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=hotdog" style="text-decoration: none"> <img src="./images/hotdog.jpg" alt="hotdog" class="img-responsive" width="100%"/> <b>Hotdog</b> </a> </td>
                     <!-- <td width="25%"> <a href="render.html?scene=6DoF" style="text-decoration: none"> <img src="../images/6DoF.png" alt="6DoF" class="img-responsive" width="100%"/> <b>6DoF(Click me)</b> </a> </td> -->
                   </tr>
                   <tr>
-                    <td width="25%"> <a href="render_bias_back.html?scene=lego" style="text-decoration: none"> <img src="./images/lego.jpg" alt="lego" class="img-responsive" width="100%"/> <b>Lego</b> </a> </td>
-                    <td width="25%"> <a href="render_bias_back.html?scene=materials" style="text-decoration: none"> <img src="./images/materials.jpg" alt="materials" class="img-responsive" width="100%"/> <b>Materials</b> </a> </td>
-                    <td width="25%"> <a href="render_bias_back.html?scene=mic" style="text-decoration: none"> <img src="./images/mic.jpg" alt="mic" class="img-responsive" width="100%"/> <b>Mic</b> </a> </td>
-                    <td width="25%"> <a href="render_bias_back.html?scene=ship" style="text-decoration: none"> <img src="./images/ship.jpg" alt="ship" class="img-responsive" width="100%"/> <b>Ship</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=lego" style="text-decoration: none"> <img src="./images/lego.jpg" alt="lego" class="img-responsive" width="100%"/> <b>Lego</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=materials" style="text-decoration: none"> <img src="./images/materials.jpg" alt="materials" class="img-responsive" width="100%"/> <b>Materials</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=mic" style="text-decoration: none"> <img src="./images/mic.jpg" alt="mic" class="img-responsive" width="100%"/> <b>Mic</b> </a> </td>
+                    <td width="25%"> <a href="render_bias.html?scene=ship" style="text-decoration: none"> <img src="./images/ship.jpg" alt="ship" class="img-responsive" width="100%"/> <b>Ship</b> </a> </td>
                   </tr>
+                </tbody>
+            </table>
+
+            <!-- <br> <h4> <b>Open-real360</b> </h4>
+                  <table style="table-layout: fixed;">
+                    <tbody>
+                        <tr>
+                          <td width="25%"> <a href="render_bias_back.html?scene=chair" style="text-decoration: none"> <img src="./images/chair.jpg" alt="chair" class="img-responsive" width="100%"/> <b>Chair</b> </a> </td>
+                          <td width="25%"> <a href="render_bias_back.html?scene=drums" style="text-decoration: none"> <img src="./images/drums.jpg" alt="drums" class="img-responsive" width="100%"/> <b>Drums</b> </a> </td>
+                          <td width="25%"> <a href="render_bias_back.html?scene=ficus" style="text-decoration: none"> <img src="./images/ficus.jpg" alt="ficus" class="img-responsive" width="100%"/> <b>Ficus</b> </a> </td>
+                          <td width="25%"> <a href="render_bias_back.html?scene=hotdog" style="text-decoration: none"> <img src="./images/hotdog.jpg" alt="hotdog" class="img-responsive" width="100%"/> <b>Hotdog</b> </a> </td>
+                          <!-- <td width="25%"> <a href="render.html?scene=6DoF" style="text-decoration: none"> <img src="../images/6DoF.png" alt="6DoF" class="img-responsive" width="100%"/> <b>6DoF(Click me)</b> </a> </td> -->
+                        </tr>
+                        <!-- <tr>
+                          <td width="25%"> <a href="render_bias_back.html?scene=lego" style="text-decoration: none"> <img src="./images/lego.jpg" alt="lego" class="img-responsive" width="100%"/> <b>Lego</b> </a> </td>
+                          <td width="25%"> <a href="render_bias_back.html?scene=materials" style="text-decoration: none"> <img src="./images/materials.jpg" alt="materials" class="img-responsive" width="100%"/> <b>Materials</b> </a> </td>
+                          <td width="25%"> <a href="render_bias_back.html?scene=mic" style="text-decoration: none"> <img src="./images/mic.jpg" alt="mic" class="img-responsive" width="100%"/> <b>Mic</b> </a> </td>
+                          <td width="25%"> <a href="render_bias_back.html?scene=ship" style="text-decoration: none"> <img src="./images/ship.jpg" alt="ship" class="img-responsive" width="100%"/> <b>Ship</b> </a> </td>
+                        </tr> -->
 
 
 
@@ -167,23 +189,20 @@
                   <!-- <tr>
                     <td width="25%"> <a href="render_6DOF.html?scene=6DoF" style="text-decoration: none"> <img src="../images/6DoF.png" alt="6DoF" class="img-responsive" width="100%"/> <b>6DoF(Click me)</b> </a> </td>
                   </tr> -->
-
-
-
               </tbody>
-            </table>
+            </table> -->
 
-            <br> <h4><b>Human</b></h4>
+            <!-- <br> <h4><b>Human</b></h4>
             <table style="table-layout: fixed;">
               <tbody>
                 <tr>
                   <td width="25%"> <a href="render_bias6DoF.html?scene=6DoF" style="text-decoration: none"> <img src="./images/6DoF.png" alt="6DoF" class="img-responsive" width="25%"/> <b>6DoF</b> </a> </td>
                   <td width="25%"> <a href="render_bias6DoF.html?scene=6DoF" style="text-decoration: none"> <img src="./images/6DoF.png" alt="6DoF" class="img-responsive" width="25%"/> <b>6DoF</b> </a> </td>
                   <!-- <td width="25%"> <a href="render_ship.html?scene=ship" style="text-decoration: none"> <img src="../images/ship.jpg" alt="ship" class="img-responsive" width="100%"/> <b>Ship</b> </a> </td> -->
-                </tr>
+                <!-- </tr> --> -->
 
-              </tbody>
-            </table>
+              <!-- </tbody> -->
+            <!-- </table> -->
         </div>
       </div>
     </div>
@@ -198,7 +217,7 @@
         <h3>Citation</h3>
         <hr style="margin-top:0px">
         <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
-<code>maskngp xxx
+<code>REFRAME
 </code></pre>
       </div>
     </div>
