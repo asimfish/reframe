@@ -395,13 +395,16 @@ vec3 evaluateNetwork(vec3 dirmap, float[3] hash, float ndir) {
 
 void main() {    
   // vec3 rayDirection = ( cameraPos-(modelPos*vec4( positionF, 1.0 )).rgb ); 
-  vec3 rayDirection = ( cameraPos-(vec4( positionF, 1.0 )).rgb ); 
-        vec4 normal_map = texture(Normap,vUv.xy);//h[:3];
+  vec3 rayDirection = -1.0*( cameraPos-(vec4( positionF, 1.0 )).rgb ); 
+        vec4 normal_map = texture(Normap,vUv);//h[:3];
         
         float min = -1.0;
         float max = 1.0;
         // normal_map =  (normal_map*(max - min) + min);
-        vec3 normal_map_ = (normal_map*(max - min) + min).xyz;
+        // min-max归一化
+        // vec3 normal_map_ = (normal_map*(max - min) + min).xyz;
+        //-1 /2 的归一化
+        vec3 normal_map_ =-1.0*  (normal_map*(2.0) - 1.0).xyz;
         for(int i =0;i<3;i++){
           if (normal_map[i] ==0.0){
             normal_map[i] = 1.0;
@@ -410,14 +413,14 @@ void main() {
         }
         //  normal_map_ = (normal_map).xyz;
         float[3] hash_feature;
-        vec3 Dir=(normalize(rayDirection));
+        vec3 Dir= -1.0*(normalize(rayDirection));
         // vec3 Dir=((rayDirection));
         // vec3 Ndir = Dir * fragNormal;
         // fragNormal = vnData;
         // vec3 new_fragNormal = normal;
         float Ndir = (Dir.x * normal_map_.x + Dir.y * normal_map_.y + Dir.z * normal_map_.z);
         vec3 tmp = vec3(2.0,2.0,2.0);
-        vec3 Wdir = ((tmp * Ndir * normal_map_) - Dir);
+        vec3 Wdir = -1.0*((tmp * Ndir * normal_map_) - Dir);
         // Wdir = Wdir.rgb;
         vec2 degree_xyz = dir2polar(Wdir);
         float degree_xy = degree_xyz.x;
@@ -426,16 +429,17 @@ void main() {
         vec3 nordegree = vec3(degree_xy, degree_z, 1.0);
         vec4 diffuse=texture(Diffuse,vUv);//h[:3];
         // vec4 normal_map = texture(Normap,vUv);//h[:3];
-        vec4 txyz=texture(hash1,vUv); //h[3:];
+        vec4 txyz=  texture(hash1,vUv); //h[3:];
         vec2 polar_uv = vec2(degree_xy, degree_z);
 
         // vec2 polar_uv = vec2(degree_z, degree_xy);
         // vec4 dirmap = texture(Dirmap, polar_uv);
-        // vec4 dirmap = texture(Dirmap, polar_uv);//
-        vec4 dirmap = gridSample(Dirmap,polar_uv);
+        // vec4 dirmap = texture(Dirmap, polar_uv.yx);//
+        vec4 dirmap = gridSample(Dirmap, polar_uv.xy);
 
 
-
+        // float min_dir =-2.669342613220214844e+01;
+        // float max_dir =2.900531196594238281e+01;
         float min_dir = dir_min;
         float max_dir = dir_max;
         dirmap = dirmap * (max_dir - min_dir) +min_dir;
@@ -460,7 +464,10 @@ void main() {
         } else { // full
             // pc_FragColor.rgb = clamp((diffuse.rgb +evaluateNetwork(hash_feature, (Dir))), 0.0f, 1.0f);
             pc_FragColor.rgb = clamp((diffuse.rgb +evaluateNetwork(dirmap_xyz, hash_feature, (Ndir))), 0.0f, 1.0f);
+
             // pc_FragColor.rgb = normal_map_;
+            // pc_FragColor.rgb = diffuse.rgb;
+            // pc_FragColor.rgb = txyz.rgb;
             // pc_FragColor.rgb = rayDirection;
             // pc_FragColor.rgb = clamp((diffuse.rgb), 0.0f, 1.0f);
             // pc_FragColor.rgb = vec3(0.0, 0.0, 0.0);
