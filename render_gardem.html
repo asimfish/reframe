@@ -1032,7 +1032,7 @@ void main() {
               var tmp;
               // load obj
               // Float32Array vn;
-              let obj_mesh = new OBJLoader().load(BASE + name + "/gardensphere/mesh_0_" + ".obj",object => {
+              let obj_mesh = new OBJLoader().load(BASE + name + "/mesh_0_" + ".obj",object => {
               // let obj_mesh = new OBJLoader().load(BASE + name + "/mesh_0_new" + ".obj",object => {  
                   object.traverse(function (child) {
                     if (child.type == "Mesh") {
