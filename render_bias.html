@@ -214,49 +214,6 @@ uniform highp sampler2D BiasOne;  // 第二层神经网络的偏移
 #define PI 3.14159265358979323846
 
 
-float[21] frencode(vec3 dir, int degree) {//返回编码完成后的dir数组(39)
-    float[21] result;//3*6*2+3
-    result[0]=dir.x;
-    result[1]=dir.y;
-    result[2]=dir.z;
-    
-    for (int i = 0; i <3; ++i) {
-    float valx = pow(2.0, float(i))  * (dir.x);
-    float valy = pow(2.0, float(i))  * (dir.y);
-    float valz = pow(2.0, float(i))  * (dir.z);
-
-        //sin,cos交替
-        // result[i*degree+3]=sin(valx);
-        // result[i*degree+3+1]=cos(valx);
-        // result[i*degree+3+2]=sin(valy);
-        // result[i*degree+3+3]=cos(valy);
-        // result[i*degree+3+4]=sin(valz);
-        // result[i*degree+3+5]=cos(valz);
-      //先sin,再cos
-        result[i*6+3]=sin(valx);
-        result[i*6+3+1]=sin(valy);
-        result[i*6+3+2]=sin(valz);
-        result[i*6+3+3]=cos(valx);
-        result[i*6+3+4]=cos(valy);
-        result[i*6+3+5]=cos(valz);
-      //交错进行
-        // result[i*degree+3]=sin(valx);
-        // result[i*degree+3+1]=cos(valy);
-        // result[i*degree+3+2]=sin(valz);
-        // result[i*degree+3+3]=cos(valx);
-        // result[i*degree+3+4]=sin(valy);
-        // result[i*degree+3+5]=cos(valz);
-
-        // result[i*degree+3]=cos(valx);
-        // result[i*degree+3+1]=sin(valy);
-        // result[i*degree+3+2]=cos(valz);
-        // result[i*degree+3+3]=sin(valx);
-        // result[i*degree+3+4]=cos(valy);
-        // result[i*degree+3+5]=sin(valz);
-    }
-    
-    return result;
-}
 
 
 float norm2D(vec2 vec) {
@@ -283,8 +240,10 @@ vec4 gridSample(sampler2D map, vec2 grid) {
     vec4 outputColor = vec4(0.0);
 
     vec2 param = vec2(0.0);
-    param.x = (float(W_in - 1) * (float(W_out) + 1.0)) / 2.0;
-    param.y = (float(H_in - 1) * (float(H_out) + 1.0)) / 2.0;
+    param.x = (float(W_in - 1) * (float(H_out) + 1.0)) / 2.0;
+    param.y = (float(H_in - 1) * (float(W_out) + 1.0)) / 2.0;
+    // param.x =  (float(H_out) + 1.0) / 2.0;
+    // param.y =  (float(W_out) + 1.0) / 2.0;
 
     int x0 = int(param.x);
     int x1 = x0 + 1;
@@ -294,10 +253,15 @@ vec4 gridSample(sampler2D map, vec2 grid) {
     param.x -= float(x0);
     param.y -= float(y0);
 
-    vec4 left_top = texture(map, vec2(float(x0), float(y0)) / vec2(float(W_in), float(H_in))) * (1.0 - param.x) * (1.0 - param.y);
-    vec4 left_bottom = texture(map, vec2(float(x0), float(y1)) / vec2(float(W_in), float(H_in))) * (1.0 - param.x) * param.y;
-    vec4 right_top = texture(map, vec2(float(x1), float(y0)) / vec2(float(W_in), float(H_in))) * param.x * (1.0 - param.y);
-    vec4 right_bottom = texture(map, vec2(float(x1), float(y1)) / vec2(float(W_in), float(H_in))) * param.x * param.y;
+    vec4 left_top = texture(map, vec2(float(y0), float(x0)) / vec2(float(H_in-1), float(W_in-1))) * (1.0 - param.x) * (1.0 - param.y);
+    vec4 left_bottom = texture(map, vec2(float(y1), float(x0)) / vec2(float(H_in-1), float(W_in-1))) * (1.0 - param.x) * param.y;
+    vec4 right_top = texture(map, vec2(float(y0), float(x1)) / vec2(float(H_in-1), float(W_in-1))) * param.x * (1.0 - param.y);
+    vec4 right_bottom = texture(map, vec2(float(y1), float(x1)) / vec2(float(H_in-1), float(W_in-1))) * param.x * param.y;
+
+    // vec4 left_top = texture(map, vec2(float(y0), float(x0)) ) * (1.0 - param.x) * (1.0 - param.y);
+    // vec4 left_bottom = texture(map, vec2(float(y1), float(x0)) ) * (1.0 - param.x) * param.y;
+    // vec4 right_top = texture(map, vec2(float(y0), float(x1)) ) * param.x * (1.0 - param.y);
+    // vec4 right_bottom = texture(map, vec2(float(y1), float(x1))) * param.x * param.y;
 
     vec4 result = left_bottom + left_top + right_bottom + right_top;
     outputColor = result;
@@ -395,7 +359,7 @@ vec3 evaluateNetwork(vec3 dirmap, float[3] hash, float ndir) {
 
 void main() {    
   // vec3 rayDirection = ( cameraPos-(modelPos*vec4( positionF, 1.0 )).rgb ); 
-  vec3 rayDirection = -1.0*( cameraPos-(vec4( positionF, 1.0 )).rgb ); 
+  vec3 rayDirection = 1.0*( cameraPos-(vec4( positionF, 1.0 )).rgb ); 
         vec4 normal_map = texture(Normap,vUv);//h[:3];
         
         float min = -1.0;
@@ -404,7 +368,7 @@ void main() {
         // min-max归一化
         // vec3 normal_map_ = (normal_map*(max - min) + min).xyz;
         //-1 /2 的归一化
-        vec3 normal_map_ =-1.0*  (normal_map*(2.0) - 1.0).xyz;
+        vec3 normal_map_ =1.0*  (normal_map*(2.0) - 1.0).xyz;
         for(int i =0;i<3;i++){
           if (normal_map[i] ==0.0){
             normal_map[i] = 1.0;
@@ -413,30 +377,29 @@ void main() {
         }
         //  normal_map_ = (normal_map).xyz;
         float[3] hash_feature;
-        vec3 Dir= -1.0*(normalize(rayDirection));
+        vec3 Dir= 1.0*(normalize(rayDirection));
         // vec3 Dir=((rayDirection));
         // vec3 Ndir = Dir * fragNormal;
         // fragNormal = vnData;
         // vec3 new_fragNormal = normal;
         float Ndir = (Dir.x * normal_map_.x + Dir.y * normal_map_.y + Dir.z * normal_map_.z);
         vec3 tmp = vec3(2.0,2.0,2.0);
-        vec3 Wdir = -1.0*((tmp * Ndir * normal_map_) - Dir);
+        vec3 Wdir = 1.0* ((tmp * Ndir * normal_map_) - Dir);
         // Wdir = Wdir.rgb;
-        vec2 degree_xyz = dir2polar(Wdir.grb);
+        // vec2 degree_xyz = dir2polar(Wdir.brg);
+        vec2 degree_xyz = dir2polar(Wdir.xyz);
         float degree_xy = degree_xyz.x;
         float degree_z = degree_xyz.y;
 
         vec3 nordegree = vec3(degree_xy, degree_z, 1.0);
         vec4 diffuse=texture(Diffuse,vUv);//h[:3];
-        // vec4 normal_map = texture(Normap,vUv);//h[:3];
+
         vec4 txyz=  texture(hash1,vUv); //h[3:];
+
+        
         vec2 polar_uv = vec2(degree_xy, degree_z);
-
-        // vec2 polar_uv = vec2(degree_z, degree_xy);
-        // vec4 dirmap = texture(Dirmap, polar_uv);
-        // vec4 dirmap = texture(Dirmap, polar_uv.yx);//
-        vec4 dirmap = gridSample(Dirmap, polar_uv.xy);
-
+        vec4 dirmap = gridSample(Dirmap, polar_uv);
+        // vec4 dirmap = texture(Dirmap,polar_uv);
 
         // float min_dir =-2.669342613220214844e+01;
         // float max_dir =2.900531196594238281e+01;
@@ -464,7 +427,7 @@ void main() {
         } else { // full
             // pc_FragColor.rgb = clamp((diffuse.rgb +evaluateNetwork(hash_feature, (Dir))), 0.0f, 1.0f);
             pc_FragColor.rgb = clamp((diffuse.rgb +evaluateNetwork(dirmap_xyz, hash_feature, (Ndir))), 0.0f, 1.0f);
-
+            // pc_FragColor.rgb = dirmap.xyz;
             // pc_FragColor.rgb = normal_map_;
             // pc_FragColor.rgb = diffuse.rgb;
             // pc_FragColor.rgb = txyz.rgb;
