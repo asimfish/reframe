@@ -72,7 +72,7 @@
     // const BASE =
     //   "https://huggingface.co/ashawkey/nerf2mesh/resolve/main/scenes/"; // remote
     //   "https://huggingface.co/ashawkey/nerf2mesh"; // remote
-    // const BASE = "../"; // local
+    // const BASE = "./"; // local
     const BASE="https://huggingface.co/xiongdi/maskngp/resolve/main/scenes/";
     // const BASE = "https://huggingface.co/xiongdi/maskngp/resolve/main/scenes/";// local
 
@@ -594,7 +594,7 @@ void main() {
       bg_color: (params.get("bg_color") === null) ? 0xffffff : parseInt(params.get("bg_color")), // default is white
       H: parseInt(params.get("H")) || Math.floor(0.95 * window.innerHeight),
       W: parseInt(params.get("W")) || Math.floor(0.99 * window.innerWidth),
-      fovy: parseInt(params.get("fovy")) || 15,
+      fovy: parseInt(params.get("fovy")) || 9,
       near: parseFloat(params.get("near")) || 0.01,
       far: parseFloat(params.get("far")) || 100,
       cameraState: params.get("cameraState"),
@@ -711,10 +711,15 @@ void main() {
       // controls.enableDamping = true;
       // controls.screenSpacePanning = true;
       //controls.minPolarAngle = Math.PI / 2.6; // 设置最小垂直旋转角度（以弧度为单位）
-      controls.maxPolarAngle = Math.PI / 2.3; // 设置最大垂直旋转角度（以弧度为单位）
+      // controls.maxPolarAngle = Math.PI / 2.3; // 设置最大垂直旋转角度（以弧度为单位）
       //controls.minAzimuthAngle =  Math.PI / 8; // 设置最小水平旋转角度（以弧度为单位）
       //controls.maxAzimuthAngle = Math.PI / 2; // 设置最大水平旋转角度（以弧度为单位）
-    
+      controls.minPolarAngle = Math.PI / 2.5; // 设置最小垂直旋转角度（以弧度为单位）
+
+      controls.maxPolarAngle = Math.PI / 1.6; // 设置最大垂直旋转角度（以弧度为单位）
+
+      controls.minAzimuthAngle =  Math.PI /1.45; // 设置最小水平旋转角度（以弧度为单位）
+      controls.maxAzimuthAngle = Math.PI / 0.89; // 设置最大水平旋转角度（以弧度为单位）
       // create scene
       scene = new THREE.Scene();
       sceneRef = {};
