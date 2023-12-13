@@ -72,7 +72,7 @@
     // const BASE =
     //   "https://huggingface.co/ashawkey/nerf2mesh/resolve/main/scenes/"; // remote
     //   "https://huggingface.co/ashawkey/nerf2mesh"; // remote
-    // const BASE = "../"; // local
+    // const BASE = "./"; // local
     const BASE="https://huggingface.co/xiongdi/maskngp/resolve/main/scenes/";
     // const BASE = "https://huggingface.co/xiongdi/maskngp/resolve/main/scenes/";// local
 
@@ -412,7 +412,6 @@ void main() {
         vec3 dirmap_xyz = (dirmap.xyz);
         // vec3 dirmap_xyz = vec3(1.0,1.0,1.0)
 
-        
         hash_feature[0]     = txyz.r;
         hash_feature[1]     = txyz.g;
         hash_feature[2]     = txyz.b;
@@ -594,7 +593,7 @@ void main() {
       bg_color: (params.get("bg_color") === null) ? 0xffffff : parseInt(params.get("bg_color")), // default is white
       H: parseInt(params.get("H")) || Math.floor(0.95 * window.innerHeight),
       W: parseInt(params.get("W")) || Math.floor(0.99 * window.innerWidth),
-      fovy: parseInt(params.get("fovy")) || 15,
+      fovy: parseInt(params.get("fovy")) || 2.8,
       near: parseFloat(params.get("near")) || 0.01,
       far: parseFloat(params.get("far")) || 100,
       cameraState: params.get("cameraState"),
@@ -700,6 +699,12 @@ void main() {
 
       // create camera
       camera = new THREE.PerspectiveCamera(configs.fovy,configs.W / configs.H,configs.near,configs.far);
+      // camera.position.x = 3.0;
+      // camera.position.y = -4.8;
+      // camera.position.z = 2.0;
+      // camera.position.x = 0.094624196;
+      // camera.position.y = 1.4355361498;
+      // camera.position.z = 0.83998724;
       camera.position.x = 3.0;
       camera.position.y = -4.8;
       camera.position.z = -2.0;
@@ -710,10 +715,12 @@ void main() {
     // controls.screenSpacePanning = true;
       // controls.enableDamping = true;
       // controls.screenSpacePanning = true;
-      //controls.minPolarAngle = Math.PI / 2.6; // 设置最小垂直旋转角度（以弧度为单位）
-      controls.maxPolarAngle = Math.PI / 2.3; // 设置最大垂直旋转角度（以弧度为单位）
-      //controls.minAzimuthAngle =  Math.PI / 8; // 设置最小水平旋转角度（以弧度为单位）
-      //controls.maxAzimuthAngle = Math.PI / 2; // 设置最大水平旋转角度（以弧度为单位）
+      controls.minPolarAngle = Math.PI / 3.9; // 设置最小垂直旋转角度（以弧度为单位）
+
+      controls.maxPolarAngle = Math.PI / 2; // 设置最大垂直旋转角度（以弧度为单位）
+
+      controls.minAzimuthAngle =  Math.PI /1.78; // 设置最小水平旋转角度（以弧度为单位）
+      controls.maxAzimuthAngle = Math.PI / 1.2; // 设置最大水平旋转角度（以弧度为单位）
     
       // create scene
       scene = new THREE.Scene();
